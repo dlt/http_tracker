@@ -7,4 +7,12 @@ require "rspec"
 require "pp"
 require "rack"
 
+Dir[File.join(File.dirname(__FILE__), "helpers", "**/*.rb")].each do |f|
+  require f
+end
+
 include RequestTracker
+
+Rspec.configure do |config|
+  config.include(RequestTracker::Spec::Helpers)
+end

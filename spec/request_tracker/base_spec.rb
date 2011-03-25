@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe Base do
 
-  before do
-    @app = Rack::Builder.new do
-      lambda { |app| [200, { :"Content-Type" => "text/html" }, "BODY"] }
-    end
+  it "should do it" do
+    setup_rack(RequestTracker::Base).call(env_with_params)
   end
 end
