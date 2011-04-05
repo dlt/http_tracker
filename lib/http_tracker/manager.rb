@@ -16,13 +16,13 @@ module HTTPTracker
       [status, headers, body]
     end
 
-    def initialize_trackers!
-      trackers.each_pair do |label, tracker_klass|
-        trackers[label] = tracker_klass.new
-      end
-    end
-
     private
+      def initialize_trackers!
+        trackers.each_pair do |label, tracker_klass|
+          trackers[label] = tracker_klass.new
+        end
+      end
+
       def trackers
         self.class.trackers
       end
@@ -38,11 +38,11 @@ module HTTPTracker
 
       def run_callbacks(name, *args)
         env = args.first
-        trackers.each_pair do |label, tracker|
-          method = "#{name}_call"
+        method = "#{name}_call"
 
+        trackers.each_pair do |label, tracker|
           if tracker.valid?(env) && tracker.respond_to?(method)
-            tracker.send("#{name}_call", *args)
+            tracker.send(method, *args)
           end
         end
       end
