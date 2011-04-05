@@ -1,4 +1,4 @@
-module RequestTracker::Spec
+module HTTPTracker::Spec
   module Helpers
 
     # Stolen from Warden http://github.com/hassox/warden

@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
-  gem.name = "request_tracker"
-  gem.version = "0.0.1"
+  gem.name = "http_tracker"
+  gem.version = "0.1.0"
   gem.authors = ["Dalto Curvelano Junior"]
   gem.summary = "A simple and modular rack middleware to track http requests"
   gem.license = 'MIT'
@@ -12,5 +12,4 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
 
   gem.add_development_dependency "rspec"
-  gem.add_development_dependency "fakeweb"
 end
