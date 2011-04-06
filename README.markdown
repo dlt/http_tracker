@@ -23,15 +23,15 @@
       true
     end
     
-    def before_call(env)
-      \# This method can be thinked of as a callback and will run before_call
+    def on_request(env)
+      \# This method can be thinked of as a callback and will run on_request
       \# the rack call to @app.call(env)
-      \# You can set instance classes here and use them later in the after_call method.
+      \# You can set instance classes here and use them later in the on_response method.
     end
 
-    def after_call(env, status, headers, body)
+    def on_response(env, status, headers, body)
       \# This method will run before @app.callback
-      \# You can use it to finalize your tracking logic, read variables set in #before_call,
+      \# You can use it to finalize your tracking logic, read variables set in #on_request,
       \# save requests or responses status to a database, etc..
     end
   end
@@ -44,10 +44,10 @@
     def valid?(env)
     end
 
-    def before_call(env)
+    def on_request(env)
     end
 
-    def after_call(env, status, headers, body)
+    def on_response(env, status, headers, body)
     end
   end
 
@@ -64,11 +64,11 @@
       true
     end
 
-    def before_call(env)
+    def on_request(env)
       @start = Time.now
     end
 
-    def after_call(env, status, headers, body)
+    def on_response(env, status, headers, body)
       @storage.save({ :request\_time => (Time.now - @start) })
     end
   end
@@ -79,11 +79,11 @@
       env["PATH_INFO"] =~ /admins\//
     end
 
-    def before_call(env)
+    def on_request(env)
       # Do stuff
     end
 
-    def after_call(env, status, headers, body)
+    def on_response(env, status, headers, body)
       # Do some other stuff
     end
   end
@@ -95,7 +95,7 @@
 
 ## Credits
 
-  HTTPTracker design is heavly inspired by Warden http://github.com/hassox/warden
+  HTTPTracker design is inspired by Warden http://github.com/hassox/warden
 
 # License
 

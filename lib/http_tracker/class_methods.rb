@@ -13,9 +13,9 @@ module HTTPTracker
 
       tracker = klass.new
 
-      if !tracker.respond_to?(:before_call) && !tracker.respond_to?(:after_call)
+      if !tracker.respond_to?(:on_request) && !tracker.respond_to?(:on_response)
         raise ArgumentError,
-          "You should implement one of the following methods: after_call, before_call."
+          "You should implement one of the following methods: on_response, on_request."
       end
 
       trackers[label] = klass
