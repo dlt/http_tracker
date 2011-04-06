@@ -4,6 +4,7 @@ module HTTPTracker
 
     def initialize(app, options = {})
       @app, @options = app, options
+      initialize_trackers
     end
 
     def call(env)
@@ -17,7 +18,7 @@ module HTTPTracker
     end
 
     private
-      def initialize_trackers!
+      def initialize_trackers
         trackers.each_pair do |label, tracker_klass|
           trackers[label] = tracker_klass.new
         end
@@ -28,7 +29,6 @@ module HTTPTracker
       end
 
       def run_on_request_callbacks!(env)
-        initialize_trackers!
         run_callbacks(:request, env)
       end
 

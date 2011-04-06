@@ -122,6 +122,9 @@ describe Manager do
           foo_tracker.respond_to?(method).should be_true
         end
       end
+
+      it "should never initialize its trackers more than once"
+
     end
 
     it "should should run its before callbacks before processing the request" do
