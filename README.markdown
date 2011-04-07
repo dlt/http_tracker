@@ -17,21 +17,21 @@
 
     HTTPTracker::Manager.add(:my_tracker) do
       def valid?(env)
-	# This tracker will only execute if the valid method returns true
-	# The implemenation of this method is obligatory.
-	true
+        # This tracker will only execute if the valid method returns true
+        # The implemenation of this method is obligatory.
+        true
       end
       
       def on_request(env)
-	# This method can be thinked of as a callback and will run on_request
-	# the rack call to @app.call(env)
-	# You can set instance classes here and use them later in the on_response method.
+        # This method can be thinked of as a callback and will run on_request
+        # the rack call to @app.call(env)
+        # You can set instance classes here and use them later in the on_response method.
       end
 
       def on_response(env, status, headers, body)
-	# This method will run before @app.callback
-	# You can use it to finalize your tracking logic, read variables set in #on_request,
-	# save requests or responses status to a database, etc..
+        # This method will run before @app.callback
+        # You can use it to finalize your tracking logic, read variables set in #on_request,
+        # save requests or responses status to a database, etc..
       end
     end
 
@@ -56,34 +56,34 @@
 
     HTTPTracker::Manager.add(:request_time) do
       def initialize
-	@storage = initialize_my_storage
+        @storage = initialize_my_storage
       end
 
       def valid?(env)
-	true
+        true
       end
 
       def on_request(env)
-	@start = Time.now
+        @start = Time.now
       end
 
       def on_response(env, status, headers, body)
-	@storage.save({ :request_time => (Time.now - @start) })
+        @storage.save({ :request_time => (Time.now - @start) })
       end
     end
 
     HTTPTracker::Manager.add(:admin_tracker) do
       def valid?(env)
-	# Only track calls to the admins_controller
-	env["PATH_INFO"] =~ /admins\//
+        # Only track calls to the admins_controller
+        env["PATH_INFO"] =~ /admins\//
       end
 
       def on_request(env)
-	# Do stuff
+        # Do stuff
       end
 
       def on_response(env, status, headers, body)
-	# Do some other stuff
+        # Do some other stuff
       end
     end
     
