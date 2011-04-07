@@ -18,21 +18,21 @@
   HTTPTracker::Manager.add(:my\_tracker) do
 
     def valid?(env)
-      \# This tracker will only execute if the valid method returns true
-      \# The implemenation of this method is obligatory.
+      # This tracker will only execute if the valid method returns true
+      # The implemenation of this method is obligatory.
       true
     end
     
     def on_request(env)
-      \# This method can be thinked of as a callback and will run on_request
-      \# the rack call to @app.call(env)
-      \# You can set instance classes here and use them later in the on_response method.
+      # This method can be thinked of as a callback and will run on_request
+      # the rack call to @app.call(env)
+      # You can set instance classes here and use them later in the on_response method.
     end
 
     def on_response(env, status, headers, body)
-      \# This method will run before @app.callback
-      \# You can use it to finalize your tracking logic, read variables set in #on_request,
-      \# save requests or responses status to a database, etc..
+      # This method will run before @app.callback
+      # You can use it to finalize your tracking logic, read variables set in #on_request,
+      # save requests or responses status to a database, etc..
     end
   end
 
