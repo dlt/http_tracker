@@ -15,79 +15,78 @@
 
 ### Dummy Tracker
 
-  HTTPTracker::Manager.add(:my\_tracker) do
+    HTTPTracker::Manager.add(:my_tracker) do
+      def valid?(env)
+	# This tracker will only execute if the valid method returns true
+	# The implemenation of this method is obligatory.
+	true
+      end
+      
+      def on_request(env)
+	# This method can be thinked of as a callback and will run on_request
+	# the rack call to @app.call(env)
+	# You can set instance classes here and use them later in the on_response method.
+      end
 
-    def valid?(env)
-      \# This tracker will only execute if the valid method returns true
-      \# The implemenation of this method is obligatory.
-      true
+      def on_response(env, status, headers, body)
+	# This method will run before @app.callback
+	# You can use it to finalize your tracking logic, read variables set in #on_request,
+	# save requests or responses status to a database, etc..
+      end
     end
-    
-    def on_request(env)
-      \# This method can be thinked of as a callback and will run on_request
-      \# the rack call to @app.call(env)
-      \# You can set instance classes here and use them later in the on_response method.
-    end
-
-    def on_response(env, status, headers, body)
-      \# This method will run before @app.callback
-      \# You can use it to finalize your tracking logic, read variables set in #on_request,
-      \# save requests or responses status to a database, etc..
-    end
-  end
 
 ### Using classes as trackers
-  class MyTracker
-    def initialize
+    class MyTracker
+      def initialize
+      end
+
+      def valid?(env)
+      end
+
+      def on_request(env)
+      end
+
+      def on_response(env, status, headers, body)
+      end
     end
 
-    def valid?(env)
-    end
-
-    def on_request(env)
-    end
-
-    def on_response(env, status, headers, body)
-    end
-  end
-
-  HTTPTracker::Manager.add(:my\_tracker, MyTracker)
+    HTTPTracker::Manager.add(:my_tracker, MyTracker)
 
 ### Setting multiple trackers
 
-  HTTPTracker::Manager.add(:request\_time) do
-    def initialize
-      @storage = initialize_my_storage
+    HTTPTracker::Manager.add(:request_time) do
+      def initialize
+	@storage = initialize_my_storage
+      end
+
+      def valid?(env)
+	true
+      end
+
+      def on_request(env)
+	@start = Time.now
+      end
+
+      def on_response(env, status, headers, body)
+	@storage.save({ :request_time => (Time.now - @start) })
+      end
     end
 
-    def valid?(env)
-      true
-    end
+    HTTPTracker::Manager.add(:admin_tracker) do
+      def valid?(env)
+	# Only track calls to the admins_controller
+	env["PATH_INFO"] =~ /admins\//
+      end
 
-    def on_request(env)
-      @start = Time.now
-    end
+      def on_request(env)
+	# Do stuff
+      end
 
-    def on_response(env, status, headers, body)
-      @storage.save({ :request\_time => (Time.now - @start) })
+      def on_response(env, status, headers, body)
+	# Do some other stuff
+      end
     end
-  end
-
-  HTTPTracker::Manager.add(:admin\_tracker) do
-    def valid?(env)
-      # Only track calls to the admins\_controller
-      env["PATH_INFO"] =~ /admins\//
-    end
-
-    def on_request(env)
-      # Do stuff
-    end
-
-    def on_response(env, status, headers, body)
-      # Do some other stuff
-    end
-  end
-  
+    
 
 ### More examples
 
